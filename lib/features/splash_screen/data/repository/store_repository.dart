@@ -1,5 +1,6 @@
-import 'package:crown_pro_estimation/core/constants/api_end_points.dart';
-import 'package:crown_pro_estimation/core/network/network_api_services.dart';
+
+import '../../../../core/constants/api_end_points.dart';
+import '../../../../core/network/network_api_services.dart';
 
 class StoreRepository{
   final _apiClient = NetworkApiService();

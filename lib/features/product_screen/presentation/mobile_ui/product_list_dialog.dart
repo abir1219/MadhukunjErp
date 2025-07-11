@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:crown_pro_estimation/core/constants/app_dimensions.dart';
 
+import '../../../../core/constants/app_dimensions.dart';
 import '../../../../features/product_screen/presentation/mobile_ui/product_estimate_form_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

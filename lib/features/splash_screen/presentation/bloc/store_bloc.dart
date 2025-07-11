@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:crown_pro_estimation/features/splash_screen/data/model/store_model.dart';
-import 'package:crown_pro_estimation/features/splash_screen/data/repository/store_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../data/model/store_model.dart';
+import '../../data/repository/store_repository.dart';
 
 part 'store_event.dart';
 part 'store_state.dart';

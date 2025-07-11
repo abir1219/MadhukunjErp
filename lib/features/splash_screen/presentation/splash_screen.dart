@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:crown_pro_estimation/features/splash_screen/presentation/bloc/store_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -131,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/doodle_bg.png"),
+              image: AssetImage("assets/images/doodle.png"),
               fit: BoxFit.cover,
             ),
           ),
@@ -142,13 +140,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.8,
                   child: Image.asset(
-                    "assets/images/icon.png",
+                    "assets/images/logo.png",
                   ),
                 ),
               ),
               Center(
                 child: LoadingAnimationWidget.staggeredDotsWave(
-                  color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
+                  color: AppColors.APP_WHITE_COLOR,
                   size: 35,
                 ),
               ),

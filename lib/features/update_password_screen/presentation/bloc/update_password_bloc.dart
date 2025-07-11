@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:crown_pro_estimation/features/update_password_screen/data/repository/update_password_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/api_status.dart';
+import '../../data/repository/update_password_repository.dart';
 
 part 'update_password_event.dart';
 part 'update_password_state.dart';

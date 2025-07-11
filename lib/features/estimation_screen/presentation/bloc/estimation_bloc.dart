@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:crown_pro_estimation/core/constants/app_constants.dart';
-import 'package:crown_pro_estimation/core/local/shared_preferences_helper.dart';
-import 'package:crown_pro_estimation/features/country_screen/data/model/country_model.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +10,10 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../../../core/constants/api_end_points.dart';
 import '../../../../core/constants/api_status.dart';
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/local/shared_preferences_helper.dart';
 import '../../../address_screen/data/model/address_model.dart';
+import '../../../country_screen/data/model/country_model.dart';
 import '../../../customer_screen/presentation/customer_group/data/model/customer_group_model.dart';
 import '../../../customer_screen/presentation/view_customer/data/model/customer_list_model.dart';
 import '../../../ingredient_screen/data/model/ingredient_model.dart';

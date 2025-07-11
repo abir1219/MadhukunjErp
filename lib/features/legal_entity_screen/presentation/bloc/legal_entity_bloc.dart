@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:crown_pro_estimation/core/constants/app_constants.dart';
-import 'package:crown_pro_estimation/core/local/shared_preferences_helper.dart';
-import 'package:crown_pro_estimation/features/legal_entity_screen/data/repository/WarehouseRepository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/constants/api_status.dart';
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/local/shared_preferences_helper.dart';
 import '../../data/model/warehouse_model.dart';
+import '../../data/repository/WarehouseRepository.dart';
 
 part 'legal_entity_event.dart';
 part 'legal_entity_state.dart';

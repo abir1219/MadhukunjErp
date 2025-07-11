@@ -1,22 +1,19 @@
-import 'dart:io';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:crown_pro_estimation/core/constants/app_constants.dart';
-import 'package:crown_pro_estimation/core/local/shared_preferences_helper.dart';
-import 'package:crown_pro_estimation/features/legal_entity_screen/presentation/bloc/legal_entity_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/api_status.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core/local/shared_preferences_helper.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../../router/app_pages.dart';
+import '../../../legal_entity_screen/presentation/bloc/legal_entity_bloc.dart';
 import '../../../product_screen/presentation/mobile_ui/estimation_info_dialog.dart';
 import '../../../salesman_screen/presentation/salesman_list_dialog.dart';
 import '../bloc/estimation_bloc.dart';
