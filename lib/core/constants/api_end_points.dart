@@ -14,9 +14,9 @@ class ApiEndPoints {
       // "http://192.168.1.193:8000/api/estimations/"; // Saibal Local
       // "http://192.168.1.193:8000/api/estimations/"; // Saibal Local
       // "https://86b4-136-232-65-198.ngrok-free.app/api/estimations/"; // Azam Local
-      "https://49ed-136-232-65-198.ngrok-free.app/api/estimations/"; // Saibal Local
+      "https://109ea2dad965.ngrok-free.app/api/estimations/"; // Saibal Local
   static final CLIENT_URL = "http://12.0.1.4:8085/api/estimations/";
-  static final BASE_URL = CLIENT_URL;
+  static final BASE_URL = TEST_URL;
   static _ApiEndPoints authEndpoints = _ApiEndPoints();
 }
 

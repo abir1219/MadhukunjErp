@@ -59,7 +59,7 @@ class AppWidgets {
         color: Colors.white, //AppColors.LOGO_BACKGROUND_BLUE_COLOR,
         image: DecorationImage(
           image: AssetImage(
-            "assets/images/doodle_bg.png",
+            "assets/images/doodle.png",
           ),
           fit: BoxFit.cover,
         ),
@@ -71,7 +71,7 @@ class AppWidgets {
           SizedBox(
             width: MediaQuery.sizeOf(navigatorKey.currentContext!).width * 0.5,
             child: Image.asset(
-              "assets/images/icon.png",
+              "assets/images/logo.png",
             ),
           ),
           /*SvgPicture.asset(
@@ -185,7 +185,7 @@ class AppWidgets {
         color: Colors.white, //AppColors.LOGO_BACKGROUND_BLUE_COLOR,
         image: DecorationImage(
           image: AssetImage(
-            "assets/images/doodle_bg.png",
+            "assets/images/doodle.png",
           ),
           fit: BoxFit.cover,
         ),
@@ -197,7 +197,7 @@ class AppWidgets {
           SizedBox(
             width: MediaQuery.sizeOf(navigatorKey.currentContext!).width * 0.8,
             child: Image.asset(
-              "assets/images/icon.png",
+              "assets/images/logo.png",
             ),
           ),
           /*SvgPicture.asset(
