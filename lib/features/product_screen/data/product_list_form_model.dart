@@ -288,7 +288,7 @@ class SkuDetails {
     diamondValue = json['DiamondValue'];
     rate = json['Rate'];
     ctype = json['Ctype'];
-    cvalue = json['Cvalue'];
+    cvalue = json['Cvalue'] ?? 0.00;
     lineAmount = json['LineAmount'];
     batchNo = json['Batch_No'];
     style = json['Style'];
@@ -428,8 +428,8 @@ class SkuSubdetails {
       this.subDStyle});
 
   SkuSubdetails.fromJson(Map<String, dynamic> json) {
-    sKUNumber = json['SKUNumber'];
-    prodName = json['Prod_Name'];
+    sKUNumber = json['SKUNumber'] ?? "";
+    prodName = json['Prod_Name'] ?? "";
     purity = json['Purity'];
     pcs = json['Pcs'];
     qty = json['Qty'];
@@ -451,7 +451,7 @@ class SkuSubdetails {
     colour = json['Colour'];
     cut = json['Cut'];
     size = json['Size'];
-    subDProdCode = json['SubD_Prod_Code'];
+    subDProdCode = json['SubD_Prod_Code'] ?? "";
     SubD_Batch_No = json['SubD_Batch_No'];
     subDPcs = json['SubD_Pcs'];
     subDQty = json['SubD_Qty'];

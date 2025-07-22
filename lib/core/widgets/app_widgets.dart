@@ -20,8 +20,8 @@ class AppWidgets {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 2),
         height:
-            AppDimensions.getResponsiveHeight(navigatorKey.currentContext!) *
-                .04,
+            // AppDimensions.getResponsiveHeight(navigatorKey.currentContext!) * .04,
+            AppDimensions.getResponsiveHeight(navigatorKey.currentContext!) * .06,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           color: color,

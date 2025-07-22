@@ -3,10 +3,10 @@ class ApiEndPoints {
 
   static final CLIENT_SOCKE_URL = "ws://12.0.1.4:8085/ws/online-users/?device_id";
   // static final TEST_SOCKE_URL = "ws://192.168.1.189:8001/ws/online-users/?device_id"; //Azam Local
-  static final TEST_SOCKE_URL = "ws://49ed-136-232-65-198.ngrok-free.app/ws/online-users/?device_id"; //Saibal Local
+  static final TEST_SOCKE_URL = "ws://21d404d37740.ngrok-free.app/ws/online-users/?device_id"; //Saibal Local
   // static final TEST_SOCKE_URL = "ws://192.168.1.193:8000/ws/online-users/?device_id"; // Saibal Local
 
-  static final SOCKET_BASE_URL = CLIENT_SOCKE_URL;
+  static final SOCKET_BASE_URL = TEST_SOCKE_URL;
 
 
   static final TEST_URL =
@@ -14,7 +14,7 @@ class ApiEndPoints {
       // "http://192.168.1.193:8000/api/estimations/"; // Saibal Local
       // "http://192.168.1.193:8000/api/estimations/"; // Saibal Local
       // "https://86b4-136-232-65-198.ngrok-free.app/api/estimations/"; // Azam Local
-      "https://109ea2dad965.ngrok-free.app/api/estimations/"; // Saibal Local
+      "https://21d404d37740.ngrok-free.app/api/estimations/"; // Saibal Local
   static final CLIENT_URL = "http://12.0.1.4:8085/api/estimations/";
   static final BASE_URL = TEST_URL;
   static _ApiEndPoints authEndpoints = _ApiEndPoints();

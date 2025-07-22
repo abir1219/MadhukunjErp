@@ -164,7 +164,7 @@ class _MobileEstimationState extends State<MobileEstimation> {
                                       estimateNoController,
                                       enabled: false,
                                     ),
-                              AppWidgets.buildField(
+                              /*AppWidgets.buildField(
                                   size, "Mobile No", mobileNoController,
                                   focusNode: mobileNoFocusNode, onSubmit: () {
                                 if (mobileNoController.text.toString() == "") {
@@ -231,7 +231,7 @@ class _MobileEstimationState extends State<MobileEstimation> {
                                   textInputType: TextInputType.phone,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
-                                  ]),
+                                  ]),*/
                               //mobileNoController
                               /*AppWidgets.buildField(
                                 size,
@@ -568,7 +568,7 @@ class _MobileEstimationState extends State<MobileEstimation> {
                                         content: Text("Please select customer")),
                                   );
                                 } else*/
-                                      if (mobileNoController.text.toString() == "") {
+                                      /*if (mobileNoController.text.toString() == "") {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(
                                               content:
@@ -581,7 +581,7 @@ class _MobileEstimationState extends State<MobileEstimation> {
                                               content: Text(
                                                   "Please enter a valid mobile no.")),
                                         );
-                                      } else if (state.salesPersonId == null) {
+                                      } else*/ if (state.salesPersonId == null) {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(
                                               content: Text(

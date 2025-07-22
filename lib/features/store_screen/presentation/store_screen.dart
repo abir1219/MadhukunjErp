@@ -48,7 +48,7 @@ class _StoreScreenState extends State<StoreScreen> {
             children: [
               AppWidgets().buildTopContainer(size),
               Positioned(
-                top: AppDimensions.getResponsiveHeight(context) * 0.32,
+                top: AppDimensions.getResponsiveHeight(context) * 0.35,
                 //300,
                 left: 0,
                 right: 0,

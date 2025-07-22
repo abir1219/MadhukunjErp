@@ -262,7 +262,7 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       (value) {
         debugPrint("ESTIMATE_NUMBER==>$value");
         //var stateModel = StateModel.fromJson(value);
-        String generatedNumber = value["GeneratedNumber"];
+        String generatedNumber = value["GeneratedNumber"]["GeneratedNumber"];
         emit(
           state.copyWith(
             apiDialogStatus: ApiStatus.success,
@@ -980,8 +980,7 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
       estnumber: state.estimationNumber!,
       currency: "INR",
       exchangerate: 1,
-      mobileno:
-          int.parse(SharedPreferencesHelper.getString(AppConstants.MOBILE_NO)!),
+      // mobileno: int.parse(SharedPreferencesHelper.getString(AppConstants.MOBILE_NO)!),
       warehouse: SharedPreferencesHelper.getString(AppConstants.WAREHOUSE)!,
       taxper: 0.00,
       taxamount: double.parse(totalTaxAmount.toStringAsFixed(2)),
@@ -1077,15 +1076,16 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
           pcs: ingredient.subDPcs,
           qty: ingredient.subDQty,
           nett: ingredient.subDNett,
-          ctype: int.parse(ingredient.subDCtype ?? ""),
+          // ctype: int.parse(ingredient.subDCtype ?? ""),
           rate: ingredient.subDRate,
-          cvalue: double.parse(ingredient.subDCvalue!.toStringAsFixed(2)),
+          // cvalue: double.parse(ingredient.subDCvalue!.toStringAsFixed(2)),
           //cvalue,
           leCode: SharedPreferencesHelper.getString(AppConstants.LEGAL_ENTITY)!,
           // pricePoint: "4000",
         );
-
-        subDetailsList.add(subDetails);
+        if(subDetails.purity != null){
+          subDetailsList.add(subDetails);
+        }
       }
 
       // EstimationMiscChargeBody miscCharge = EstimationMiscChargeBody();
