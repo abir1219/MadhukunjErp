@@ -9,6 +9,7 @@ import '../features/legal_entity_screen/presentation/legal_entity_screen.dart';
 import '../features/login_screen/data/model/login_model.dart';
 import '../features/login_screen/presentation/screens/login_screen.dart';
 import '../features/pdf_view_screen/presentation/pdfview_screen.dart';
+import '../features/pdf_view_screen/presentation/pdfview_screen_old.dart';
 import '../features/product_screen/presentation/mobile_ui/mobile_product_search_screen.dart';
 import '../features/product_screen/presentation/mobile_ui/product_list_dialog.dart';
 import '../features/splash_screen/presentation/splash_screen.dart';

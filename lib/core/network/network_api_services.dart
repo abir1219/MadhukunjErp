@@ -1,174 +1,238 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
+import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+
+import '../../main.dart';
+import '../../router/app_pages.dart';
 import '../constants/app_constants.dart';
 import '../errors/app_exceptions.dart';
 import '../local/shared_preferences_helper.dart';
 import 'base_api_services.dart';
 
+/// Class for handling network API requests.
 class NetworkApiService implements BaseApiServices {
-  final Dio _dio = Dio();
-
-  NetworkApiService() {
-    _dio.options.connectTimeout = const Duration(seconds: 15);
-    _dio.options.receiveTimeout = const Duration(seconds: 15);
-  }
-
-  Future<Map<String, String>> _getHeaders({bool isJson = false}) async {
-    final headers = {
-      'Device-ID': "${SharedPreferencesHelper.getString(AppConstants.DEVICE_ID)}",
-    };
-    if (isJson) headers['Content-Type'] = 'application/json';
-    return headers;
-  }
-
+  /// Sends a GET request to the specified [url] and returns the response.
+  ///
+  /// Throws a [NoInternetException] if there is no internet connection.
+  /// Throws a [FetchDataException] if the network request times out.
   @override
   Future<dynamic> getApi(String url) async {
+    if (kDebugMode) {
+      print(
+          "AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
+      print("Get_api==>$url");
+    }
+    dynamic responseJson;
+    Map<String, String> headers = {
+      'Device-ID':
+      "${SharedPreferencesHelper.getString(AppConstants.DEVICE_ID)}",
+    };
     try {
-      final headers = await _getHeaders();
+      final response = await http.get(
+        Uri.parse(url),
+        headers: headers,
+      );
       if (kDebugMode) {
-        print("AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
-        print("GET => $url");
-        print("Headers => $headers");
+        print("URL==>$url");
+        print("Headers==>$headers");
+        print("Response==>${response.body}");
       }
 
-      final response = await _dio.get(url, options: Options(headers: headers));
-      return _handleResponse(response);
+      responseJson = returnResponse(response);
+
+      if (kDebugMode) {
+        print("responseJson==>$responseJson");
+      }
     } on SocketException {
       throw NoInternetException('');
     } on TimeoutException {
       throw FetchDataException('Network Request time out');
-    } on DioException catch (e) {
-      _handleDioException(e);
     }
+
+    if (kDebugMode) {
+      print(responseJson);
+    }
+    return responseJson;
   }
 
+  /// Sends a POST request to the specified [url] with the provided [data]
+  /// and returns the response.
+  ///
+  /// Throws a [NoInternetException] if there is no internet connection.
+  /// Throws a [FetchDataException] if the network request times out.
   @override
   Future<dynamic> postApi(String url, dynamic data) async {
-    try {
-      final headers = await _getHeaders();
-      if (kDebugMode) {
-        print("AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
-        print("POST => $url");
-        debugPrint("Body => $data", wrapWidth: 1024);
-      }
+    if (kDebugMode) {
+      print(
+          "AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
+      print("Post_api==>$url");
+      //print("Body==>$data");
+      debugPrint("Body==>$data", wrapWidth: 1024);
+    }
 
-      final response = await _dio.post(url, data: data, options: Options(headers: headers));
-      return _handleResponse(response);
+    dynamic responseJson;
+    Map<String, String> headers = {
+      'Device-ID':
+      "${SharedPreferencesHelper.getString(AppConstants.DEVICE_ID)}",
+    };
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        body: data,
+        headers: headers,
+      );
+      responseJson = returnResponse(response);
+      if (kDebugMode) {
+        print("Status_code =>> ${response.statusCode}");
+      }
     } on SocketException {
-      throw NoInternetException('');
+      throw NoInternetException('No Internet Connection');
     } on TimeoutException {
       throw FetchDataException('Network Request time out');
-    } on DioException catch (e) {
-      _handleDioException(e);
     }
-  }
-
-  @override
-  Future<dynamic> putApi(String url, dynamic data) async {
-    try {
-      final headers = await _getHeaders();
-      if (kDebugMode) {
-        print("PUT => $url");
-        debugPrint("Body => $data", wrapWidth: 1024);
-      }
-
-      final response = await _dio.put(url, data: data, options: Options(headers: headers));
-      return _handleResponse(response);
-    } on SocketException {
-      throw NoInternetException('');
-    } on TimeoutException {
-      throw FetchDataException('Network Request time out');
-    } on DioException catch (e) {
-      _handleDioException(e);
+    if (kDebugMode) {
+      print(responseJson);
     }
-  }
-
-  @override
-  Future<dynamic> loginApi(String url, dynamic data) async {
-    try {
-      final headers = await _getHeaders();
-      if (kDebugMode) {
-        print("Login POST => $url");
-        print("Body => $data");
-      }
-
-      final response = await _dio.post(url, data: data, options: Options(headers: headers));
-      return _handleResponse(response);
-    } on SocketException {
-      throw NoInternetException('');
-    } on TimeoutException {
-      throw FetchDataException('Network Request time out');
-    } on DioException catch (e) {
-      _handleDioException(e);
-    }
+    return responseJson;
   }
 
   @override
   Future<dynamic> estimationCreateApi(String url, dynamic data) async {
-    try {
-      final headers = await _getHeaders(isJson: true);
-      if (kDebugMode) {
-        print("POST JSON => $url");
-        debugPrint("Body => $data", wrapWidth: 1024);
-      }
+    if (kDebugMode) {
+      print(
+          "AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
+      print("Post_api==>$url");
+      //print("Body==>$data");
+      debugPrint("Body==>$data", wrapWidth: 1024);
+    }
 
-      final response = await _dio.post(url,
-          data: jsonEncode(data), options: Options(headers: headers));
-      return _handleResponse(response);
+    dynamic responseJson;
+    try {
+      final http.Response response =
+      await http.post(Uri.parse(url), body: data, headers: {
+        'Content-Type': 'application/json',
+        'Device-ID':
+        "${SharedPreferencesHelper.getString(AppConstants.DEVICE_ID)}"
+      }
+        // headers: headers,
+      );
+      responseJson = returnResponse(response);
+      if (kDebugMode) {
+        print("Status_code =>> ${response.statusCode}");
+      }
     } on SocketException {
-      throw NoInternetException('');
+      throw NoInternetException('No Internet Connection');
     } on TimeoutException {
       throw FetchDataException('Network Request time out');
-    } on DioException catch (e) {
-      _handleDioException(e);
     }
+    if (kDebugMode) {
+      print(responseJson);
+    }
+    return responseJson;
   }
 
-  dynamic _handleResponse(Response response) {
+  @override
+  Future<dynamic> putApi(String url, dynamic data) async {
     if (kDebugMode) {
-      print("STATUS_CODE => ${response.statusCode}");
-      print("RESPONSE => ${response.data}");
+      print(
+          "AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
+      print("Post_api==>$url");
+      //print("Body==>$data");
+      debugPrint("Body==>$data", wrapWidth: 1024);
+    }
+
+    dynamic responseJson;
+    Map<String, String> headers = {
+      'Device-ID':
+      "${SharedPreferencesHelper.getString(AppConstants.DEVICE_ID)}",
+    };
+    try {
+      final http.Response response = await http.put(
+        Uri.parse(url),
+        body: data,
+        headers: headers,
+      );
+      responseJson = returnResponse(response);
+      if (kDebugMode) {
+        print("Status_code =>> ${response.statusCode}");
+      }
+    } on SocketException {
+      throw NoInternetException('No Internet Connection');
+    } on TimeoutException {
+      throw FetchDataException('Network Request time out');
+    }
+    if (kDebugMode) {
+      print(responseJson);
+    }
+    return responseJson;
+  }
+
+  @override
+  Future<dynamic> loginApi(String url, dynamic data) async {
+    if (kDebugMode) {
+      print(
+          "AccessToken==>Bearer ${SharedPreferencesHelper.getString(AppConstants.ACCESS_TOKEN)}");
+      print("Post_api==>$url");
+      print("Body==>$data");
+    }
+
+    dynamic responseJson;
+    Map<String, String> headers = {
+      'Device-ID':
+      "${SharedPreferencesHelper.getString(AppConstants.DEVICE_ID)}",
+    };
+    try {
+      final http.Response response =
+      await http.post(Uri.parse(url), body: data, headers: headers);
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw NoInternetException('No Internet Connection');
+    } on TimeoutException {
+      throw FetchDataException('Network Request time out');
+    }
+    if (kDebugMode) {
+      print(responseJson);
+    }
+    return responseJson;
+  }
+
+  dynamic returnResponse(http.Response response) {
+    if (kDebugMode) {
+      print("STATUS_CODE-->${response.statusCode}");
+    }else{
+      print("STATUS_CODE-->${response.statusCode}");
     }
 
     switch (response.statusCode) {
       case 200:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
       case 201:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
       case 400:
-        return response.data;
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
       case 401:
-      // handle 401 navigation here if needed
+      // debugPrint("-----401-----");
+      // GoRouter.of(navigatorKey.currentContext!).go(AppPages.URL_VERIFICATION);
+        if (navigatorKey.currentContext != null) {
+          GoRouter.of(navigatorKey.currentContext!)
+              .go(AppPages.URL_VERIFICATION);
+        } else {
+          print("Navigator context is null");
+        }
         return null;
-      case 404:
       case 500:
-        throw UnauthorisedException(response.data.toString());
+      case 404:
+        throw UnauthorisedException(response.body.toString());
       default:
-        throw FetchDataException('Unexpected error: ${response.statusCode}');
+        throw FetchDataException(
+            'Error occurred while communicating with server');
     }
-  }
-
-  void _handleDioException(DioException error) {
-    if (kDebugMode) {
-      print("DIO ERROR => ${error.message}");
-    }
-
-    if (error.type == DioExceptionType.connectionTimeout ||
-        error.type == DioExceptionType.sendTimeout ||
-        error.type == DioExceptionType.receiveTimeout) {
-      throw FetchDataException('Network Request time out');
-    } else if (error.type == DioExceptionType.badResponse) {
-      final response = error.response;
-      if (response != null) {
-        throw FetchDataException('Server error: ${response.statusCode}');
-      }
-    } else if (error.type == DioExceptionType.unknown &&
-        error.error is SocketException) {
-      throw NoInternetException('No Internet Connection');
-    }
-
-    throw FetchDataException('Something went wrong');
   }
 }

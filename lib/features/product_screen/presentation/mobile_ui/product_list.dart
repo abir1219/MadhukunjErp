@@ -339,7 +339,7 @@ class _ProductListState extends State<ProductList> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            /*Container(
               margin: EdgeInsets.only(top: 2, bottom: 2, left: 2),
               height: AppDimensions.getResponsiveHeight(context) * 0.2,
               width: AppDimensions.getResponsiveWidth(context) * 0.2,
@@ -364,7 +364,7 @@ class _ProductListState extends State<ProductList> {
                           ),
                         )
                       : null,
-            ),
+            ),*/
             SizedBox(width: AppDimensions.getResponsiveWidth(context) * 0.03),
             Expanded(
               child: Row(
