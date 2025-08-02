@@ -670,7 +670,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
   FutureOr<void> _fetchProductList(
       FetchProductListEvent event, Emitter<EstimationState> emit) async {
     // debugPrint("Api_status==>${state.apiStatus}");
-    emit(state.copyWith(apiDialogStatus: ApiStatus.loading));
+    emit(state.copyWith(apiDialogStatus: ApiStatus.loading/*,productList:[]*/));
+    // state.productList!.clear();
     await estimationRepository.fetchProductList(event.search).then(
       (value) {
         debugPrint("VALUE==>$value");
