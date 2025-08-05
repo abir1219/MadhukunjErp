@@ -581,14 +581,14 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'^\d*\.?\d*')),
                                           ],
-                                          onChange: (value) {
+                                          /*onChange: (value) {
                                             setState(() {
                                               if (value!.isEmpty) {
                                                 discAmountController.text =
                                                 '0.00';
 
                                                 int roundedAmnt = originalTaxableValue.ceil();
-                                                /*if(roundedAmnt % 5 == 0){
+                                                *//*if(roundedAmnt % 5 == 0){
                                                   taxableAmtController.text = roundedAmnt.toStringAsFixed(2);
                                                 }else{
                                                   int result = (roundedAmnt ~/ 5);
@@ -597,7 +597,7 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                   debugPrint("mode--->$mode");
                                                   taxableAmtController.text = mode.toStringAsFixed(2);
                                                 }
-*/
+*//*
 
                                                 taxAmountController.text =
                                                     originalTaxAmount
@@ -608,9 +608,9 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                     AppWidgets
                                                         .formatIndianNumber(
                                                         taxAmount);
-                                                /*lineAmountController.text =
+                                                *//*lineAmountController.text =
                                                     originalLineAmount
-                                                        .toStringAsFixed(2);*/
+                                                        .toStringAsFixed(2);*//*
 
                                                 lineAmount = originalLineAmount;
                                                 lineAmountController.text =
@@ -651,10 +651,10 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                         (100 -
                                                             discountPercentage)) /
                                                         100;
-                                                /*discAmountController.text =
+                                                *//*discAmountController.text =
                                                     (originalMakingValue -
                                                             newMakingValue)
-                                                        .toStringAsFixed(2);*/
+                                                        .toStringAsFixed(2);*//*
 
                                                 discountAmount =
                                                 (originalMakingValue -
@@ -673,11 +673,11 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                   ?.toLowerCase()
                                                   .contains("line") ==
                                                   true) {
-                                                /*discAmountController
+                                                *//*discAmountController
                                                     .text = ((totalValue *
                                                             discountPercentage) /
                                                         100)
-                                                    .toStringAsFixed(2);*/
+                                                    .toStringAsFixed(2);*//*
                                                 discountAmount = (totalValue *
                                                     discountPercentage) /
                                                     100;
@@ -690,43 +690,46 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                         .formatIndianNumber(
                                                         discountAmount);
                                               } else {
-                                                /*discAmountController
+
+
+
+
+
+                                                *//*discAmountController
                                                     .text = ((totalValue *
                                                             discountPercentage) /
                                                         100)
-                                                    .toStringAsFixed(2);*/
+                                                    .toStringAsFixed(2);*//*
 
-                                                debugPrint(
-                                                    "LINE_AMOUNT==>$lineAmount");
+                                                // debugPrint("LINE_AMOUNT==>$lineAmount");
 
                                                 // DISCOUNT BASED ON TAXABLE AMOUNT
-                                                /*discountAmount = (totalValue *
+                                                *//*discountAmount = (totalValue *
                                                         discountPercentage) /
-                                                    100;*/
+                                                    100;*//*
                                                 // .toStringAsFixed(2));
 
                                                 // DISCOUNT BASED ON LINE AMOUNT
 
-                                                discountAmount = (totalValue * discountPercentage) / 100;
+                                                //discountAmount = (totalValue * discountPercentage) / 100;
 
 
 
 
                                                 // discountAmount = (double.parse(taxableAmtController.text.replaceAll(",", "")) * discountPercentage) / 100;
-                                                debugPrint(
-                                                    "discountAmount==>$discountAmount");
+                                                // debugPrint("discountAmount==>$discountAmount");
 
-                                                discAmountController.text =
+                                                *//*discAmountController.text =
                                                     AppWidgets
                                                         .formatIndianNumber(
                                                         discountAmount);
                                                 double tempTaxableAmount = (totalValue - discountAmount);
 
                                                 debugPrint(
-                                                    "tempTaxableAmount@@==>$tempTaxableAmount");
+                                                    "tempTaxableAmount@@==>$tempTaxableAmount");*//*
 
                                                 //int roundedAmnt = tempTaxableAmount.ceil();
-                                                /*if(roundedAmnt % 5 == 0){
+                                                *//*if(roundedAmnt % 5 == 0){
                                                   taxableAmtController.text = AppWidgets.formatIndianNumber(roundedAmnt.toDouble());
                                                 }else{
                                                   int result = (roundedAmnt ~/ 5);
@@ -734,9 +737,9 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                   int mode = (result + 1) * 5;
                                                   debugPrint("mode--->$mode");
                                                   taxableAmtController.text = AppWidgets.formatIndianNumber(mode.toDouble());
-                                                }*/
+                                                }*//*
 
-                                                taxableAmtController.text = AppWidgets.formatIndianNumber(tempTaxableAmount);
+                                                *//*taxableAmtController.text = AppWidgets.formatIndianNumber(tempTaxableAmount);
                                                 double tempTaxAmount = 0.0;
                                                 for (int i = 0;
                                                 i < state.productListFormModel!.skuTax!.length;
@@ -756,23 +759,23 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
 
                                                 lineAmountController.text =
                                                     AppWidgets.formatIndianNumber(
-                                                        lineAmount);
+                                                        lineAmount);*//*
 
 
                                               }
 
-                                              /*taxableAmtController.text =
+                                              *//*taxableAmtController.text =
                                                   calculatedTaxableAmount(
                                                           skuDetails:
                                                               state.skuDetails!,
                                                           discountAmount:
                                                               discAmountController
                                                                   .text)
-                                                      .toStringAsFixed(2);*/
+                                                      .toStringAsFixed(2);*//*
 
                                               // CALCULATE BASED ON TAXABLE AMOUNT
 
-                                              /*taxableAmount =
+                                              *//*taxableAmount =
                                                   calculatedTaxableAmount(
                                                       skuDetails:
                                                           state.skuDetails!,
@@ -785,24 +788,24 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                   AppWidgets.formatIndianNumber(
                                                       taxableAmount);
 
-                                              */
-                                              /*taxAmountController.text =
+                                              *//*
+                                              *//*taxAmountController.text =
                                                   calculateTaxAmount()
-                                                      .toStringAsFixed(2);*/ /*
+                                                      .toStringAsFixed(2);*//* *//*
                                               taxAmount = calculateTaxAmount();
                                               taxAmountController.text =
                                                   AppWidgets.formatIndianNumber(
                                                       taxAmount);
 
                                               lineAmount = calculateLineAmount();
-                                              */ /*lineAmountController.text =
+                                              *//* *//*lineAmountController.text =
                                                   calculateLineAmount()
-                                                      .toStringAsFixed(2);*/ /*
-                                              lineAmountController.text = AppWidgets.formatIndianNumber(lineAmount);*/
+                                                      .toStringAsFixed(2);*//* *//*
+                                              lineAmountController.text = AppWidgets.formatIndianNumber(lineAmount);*//*
 
                                               // CALCULATE BASED ON LINE AMOUNT
 
-                                              /*taxableAmount = calculatedTaxableAmount(
+                                              *//*taxableAmount = calculatedTaxableAmount(
                                                   skuDetails: state.skuDetails!,
                                                   discountAmount: discountAmount.toStringAsFixed(2)) - double.parse(discountAmount.toStringAsFixed(2));
 
@@ -812,15 +815,79 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                               // taxAmountController.text = calculateTaxAmount().toStringAsFixed(2);
                                               taxAmount = calculateTaxAmount();
                                               taxAmountController.text =
-                                                  AppWidgets.formatIndianNumber(taxAmount);*/
+                                                  AppWidgets.formatIndianNumber(taxAmount);*//*
 
-                                              /* lineAmount = calculateLineAmount(
+                                              *//* lineAmount = calculateLineAmount(
                                                   discountAmount);
                                               lineAmountController.text =
                                                   AppWidgets.formatIndianNumber(
-                                                      lineAmount);*/
+                                                      lineAmount);*//*
                                             });
-                                          },
+                                          },*/
+                                            onChange: (value) {
+                                              setState(() {
+                                                if (value!.isEmpty) {
+                                                  discAmountController.text = '0.00';
+                                                  taxableAmtController.text = originalTaxableValue.toStringAsFixed(2);
+
+                                                  taxAmount = originalTaxAmount;
+                                                  taxAmountController.text =
+                                                      AppWidgets.formatIndianNumber(taxAmount);
+
+                                                  lineAmount = originalLineAmount;
+                                                  lineAmountController.text =
+                                                      AppWidgets.formatIndianNumber(lineAmount);
+                                                  return;
+                                                }
+
+                                                double discountPercentage = double.tryParse(value) ?? 0.0;
+
+                                                double makingValue = state.skuDetails?.mkValue ?? 0.0;
+                                                double stoneValue = state.skuDetails?.stoneValue ?? 0.0;
+                                                double diamondValue = state.skuDetails?.diamondValue ?? 0.0;
+                                                double cValue = state.skuDetails?.cvalue ?? 0.0;
+                                                double taxValue = state.skuDetails?.taxAmount ?? 0.0;
+
+                                                double totalValue = makingValue + stoneValue + diamondValue + cValue;
+                                                double fullLineAmount = totalValue + taxValue;
+
+                                                String discountDesc = state.productListFormModel?.skuDiscount?.desc?.toLowerCase() ?? "";
+
+                                                double discountAmount = 0.0;
+                                                double taxableAmount = 0.0;
+                                                double taxAmountLocal = 0.0;
+                                                double updatedLineAmount = 0.0;
+
+                                                if (discountDesc.contains("line")) {
+                                                  // Apply discount on total line amount
+                                                  discountAmount = (fullLineAmount * discountPercentage) / 100;
+                                                  double netLineAmount = fullLineAmount - discountAmount;
+                                                  taxableAmount = totalValue; // full taxable base stays same
+                                                  taxAmountLocal = (taxableAmount * taxPercentage) / 100;
+                                                  updatedLineAmount = taxableAmount + taxAmountLocal;
+
+                                                } else {
+                                                  // Apply discount on making value (for both "making" and others)
+                                                  discountAmount = (makingValue * discountPercentage) / 100;
+                                                  double newMakingValue = makingValue - discountAmount;
+
+                                                  double newTotalValue = newMakingValue + stoneValue + diamondValue + cValue;
+                                                  taxableAmount = newTotalValue;
+                                                  taxAmountLocal = (taxableAmount * taxPercentage) / 100;
+                                                  updatedLineAmount = taxableAmount + taxAmountLocal;
+                                                }
+
+                                                discAmountController.text =
+                                                    AppWidgets.formatIndianNumber(discountAmount);
+                                                taxableAmtController.text =
+                                                    taxableAmount.toStringAsFixed(2);
+                                                taxAmountController.text =
+                                                    AppWidgets.formatIndianNumber(taxAmountLocal);
+                                                lineAmountController.text =
+                                                    AppWidgets.formatIndianNumber(updatedLineAmount);
+                                              });
+                                            }
+
                                         ),
                                       ),
                                       Expanded(
@@ -840,25 +907,25 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                             FilteringTextInputFormatter.allow(
                                                 RegExp(r'^\d*\.?\d*')),
                                           ],
-                                          onChange: (value) {
+                                          /*onChange: (value) {
                                             setState(() {
                                               if (value!.isEmpty) {
                                                 discPercentageController.text = '0.00';
                                                 taxableAmtController.text =
                                                     originalTaxableValue
                                                         .toStringAsFixed(2);
-                                                /*taxAmountController.text =
+                                                *//*taxAmountController.text =
                                                     originalTaxAmount
-                                                        .toStringAsFixed(2);*/
+                                                        .toStringAsFixed(2);*//*
                                                 taxAmount = originalTaxAmount;
                                                 taxAmountController.text =
                                                     AppWidgets
                                                         .formatIndianNumber(
                                                         taxAmount);
 
-                                                /*lineAmountController.text =
+                                                *//*lineAmountController.text =
                                                     originalLineAmount
-                                                        .toStringAsFixed(2);*/
+                                                        .toStringAsFixed(2);*//*
 
                                                 lineAmount = originalLineAmount;
                                                 lineAmountController.text =
@@ -869,6 +936,7 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                 return;
                                               }
 
+
                                               double discountAmount =
                                                   double.tryParse(value) ?? 0.0;
                                               double totalValue = (state
@@ -878,6 +946,7 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                   (state.skuDetails
                                                       ?.stoneValue ??
                                                       0.0) +
+
                                                   (state.skuDetails
                                                       ?.diamondValue ??
                                                       0.0) +
@@ -894,7 +963,7 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                         .toStringAsFixed(2);
                                               }
 
-                                              taxableAmtController
+                                              *//*taxableAmtController
                                                   .text = (calculatedTaxableAmount(
                                                   skuDetails:
                                                   state.skuDetails!,
@@ -904,29 +973,76 @@ class _ProductEstimateFormDialogState extends State<ProductEstimateFormDialog> {
                                                       2))-discountAmount)
                                                   .toStringAsFixed(2);
                                               debugPrint("DISCOUNTED_TAXABLE_AMOUNT___>${taxableAmtController
-                                                  .text}");
+                                                  .text}");*//*
 
 
-                                              /*taxAmountController.text =
+                                              *//*taxAmountController.text =
                                                   calculateTaxAmount()
-                                                      .toStringAsFixed(2);*/
-                                              taxAmount = calculateTaxAmount();
+                                                      .toStringAsFixed(2);*//*
+                                              *//*taxAmount = calculateTaxAmount();
                                               debugPrint("DISCOUNTED_TAX_AMOUNT___>$taxAmount");
                                               taxAmountController.text =
                                                   AppWidgets.formatIndianNumber(
                                                       taxAmount);
 
-                                              /*lineAmountController.text =
+                                              *//**//*lineAmountController.text =
                                                   calculateLineAmount()
-                                                      .toStringAsFixed(2);*/
+                                                      .toStringAsFixed(2);*//**//*
 
                                               lineAmount =
                                                   calculateLineAmount(0.0);
                                               lineAmountController.text =
                                                   AppWidgets.formatIndianNumber(
-                                                      lineAmount);
+                                                      lineAmount);*//*
                                             });
-                                          },
+                                          },*/
+                                            onChange: (value) {
+                                              setState(() {
+                                                if (value!.isEmpty) {
+                                                  discPercentageController.text = '0.00';
+                                                  taxableAmtController.text = originalTaxableValue.toStringAsFixed(2);
+                                                  // taxAmount = originalTaxAmount;
+                                                  taxAmountController.text = AppWidgets.formatIndianNumber(originalTaxAmount);
+                                                  // lineAmount = originalLineAmount;
+                                                  lineAmountController.text = AppWidgets.formatIndianNumber(originalLineAmount);
+                                                  return;
+                                                }
+
+                                                double discountAmount = double.tryParse(value) ?? 0.0;
+
+                                                final discountDesc = state.productListFormModel?.skuDiscount?.desc?.toLowerCase() ?? "";
+                                                double totalValue = (state.skuDetails?.mkValue ?? 0.0) +
+                                                    (state.skuDetails?.stoneValue ?? 0.0) +
+                                                    (state.skuDetails?.diamondValue ?? 0.0) +
+                                                    (state.skuDetails?.cvalue ?? 0.0);
+
+                                                double taxableAmount = 0.0;
+                                                double discountBaseValue = 0.0;
+
+                                                if (discountDesc.contains("line")) {
+                                                  // Discount is off from lineAmount
+                                                  discountBaseValue = totalValue + (state.skuDetails?.taxAmount ?? 0.0); // original line amount
+                                                  taxableAmount = totalValue; // tax will be on full components
+                                                } else {
+                                                  // Discount is off from making value
+                                                  discountBaseValue = state.skuDetails?.mkValue ?? 0.0;
+                                                  taxableAmount = totalValue - discountAmount;
+                                                }
+
+                                                double discountPercentage = discountBaseValue > 0
+                                                    ? (discountAmount * 100) / discountBaseValue
+                                                    : 0.0;
+
+                                                double taxAmount = (taxableAmount * taxPercentage) / 100;
+                                                double lineAmount = taxableAmount + taxAmount;
+
+                                                discPercentageController.text = discountPercentage.toStringAsFixed(2);
+                                                taxableAmtController.text = taxableAmount.toStringAsFixed(2);
+                                                taxAmountController.text = AppWidgets.formatIndianNumber(taxAmount);
+                                                lineAmountController.text = AppWidgets.formatIndianNumber(lineAmount);
+                                              });
+                                            }
+
                                         ),
                                       ),
                                       /*IconButton(onPressed: () {
