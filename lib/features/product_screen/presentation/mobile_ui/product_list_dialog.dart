@@ -233,7 +233,7 @@ class _ProductListDialogState extends State<ProductListDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Image Container
-            Container(
+            /*Container(
               margin: EdgeInsets.only(top: 2, bottom: 2, left: 2),
               height: AppDimensions.getResponsiveHeight(context) * 0.2,
               width: AppDimensions.getResponsiveWidth(context) * 0.2,
@@ -259,7 +259,7 @@ class _ProductListDialogState extends State<ProductListDialog> {
                 ),
               )
                   : null,
-            ),
+            ),*/
             SizedBox(width: AppDimensions.getResponsiveWidth(context) * 0.03),
             // Space between image and details
             // Product Details and Arrow
