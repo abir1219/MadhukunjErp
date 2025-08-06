@@ -54,6 +54,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
     on<FetchCustomerListEvent>(_fetchCustomerList);
     on<FetchCustomerGroupEvent>(_fetchCustomerGroupList);
     on<FetchProductListEvent>(_fetchProductList);
+    on<SearchProductEvent>(_searchProduct);
+    on<SearchEmployeeEvent>(_searchEmployee);
     on<SkuSaveForListEvent>(_skuSaveForList);
     on<ChangeAngle>(_changeAngle);
     // on<DeleteIngredientEvent>(_deleteIngredient);
@@ -230,43 +232,6 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
           state.copyWith(
             apiDialogStatus: ApiStatus.success,
             stateList: stateModel.stateList,
-          ),
-        );
-      },
-    ).onError(
-      (error, stackTrace) {
-        emit(
-          state.copyWith(
-            apiDialogStatus: ApiStatus.error,
-            message: "Getting some errors",
-          ),
-        );
-      },
-    );
-  }
-
-  FutureOr<void> _generateEstimationNumber(
-      GenerateEstimationNumber event, Emitter<EstimationState> emit) async {
-    emit(state.copyWith(apiDialogStatus: ApiStatus.loading));
-    String lecode =
-        SharedPreferencesHelper.getString(AppConstants.LEGAL_ENTITY)!;
-    String warehouse =
-        SharedPreferencesHelper.getString(AppConstants.WAREHOUSE)!;
-
-    Map<String, dynamic> body = {
-      "pvWarehouse": warehouse,
-      "pvLeCode": lecode,
-    };
-
-    await estimationRepository.generateEstimationNumber(body).then(
-      (value) {
-        debugPrint("ESTIMATE_NUMBER==>$value");
-        //var stateModel = StateModel.fromJson(value);
-        String generatedNumber = value["GeneratedNumber"]["GeneratedNumber"];
-        emit(
-          state.copyWith(
-            apiDialogStatus: ApiStatus.success,
-            estimationNumber: generatedNumber,
           ),
         );
       },
@@ -587,32 +552,6 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
     );
   }
 
-  FutureOr<void> _fetchSalesmanList(
-      FetchSalesmanListEvent event, Emitter<EstimationState> emit) async {
-    emit(state.copyWith(apiDialogStatus: ApiStatus.loading));
-    await estimationRepository.getSalesmanList(event.search).then(
-      (value) {
-        debugPrint("EMPLOYEE_VALUE==>$value");
-        var salesmanModel = SalesmanModel.fromJson(value);
-        emit(
-          state.copyWith(
-            apiDialogStatus: ApiStatus.success,
-            employeeList: salesmanModel.employeeList!,
-          ),
-        );
-      },
-    ).onError(
-      (error, stackTrace) {
-        emit(
-          state.copyWith(
-            apiDialogStatus: ApiStatus.error,
-            message: "Getting some errors",
-          ),
-        );
-      },
-    );
-  }
-
   FutureOr<void> _fetchCustomerList(
       FetchCustomerListEvent event, Emitter<EstimationState> emit) async {
     debugPrint("Api_status==>${state.apiStatus}");
@@ -667,10 +606,10 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
     );
   }
 
-  FutureOr<void> _fetchProductList(
+  /*FutureOr<void> _fetchProductList(
       FetchProductListEvent event, Emitter<EstimationState> emit) async {
     // debugPrint("Api_status==>${state.apiStatus}");
-    emit(state.copyWith(apiDialogStatus: ApiStatus.loading/*,productList:[]*/));
+      emit(state.copyWith(apiDialogStatus: ApiStatus.loading*//*,productList:[]*//*));
     // state.productList!.clear();
     await estimationRepository.fetchProductList(event.search).then(
       (value) {
@@ -697,6 +636,122 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
         );
       },
     );
+  }*/
+
+  FutureOr<void> _fetchProductList(
+      FetchProductListEvent event,
+      Emitter<EstimationState> emit,
+      ) async {
+    emit(state.copyWith(apiDialogStatus: ApiStatus.loading));
+    await estimationRepository.fetchProductList(event.search).then(
+          (value) {
+        final productModel = ProductListDataModel.fromJson(value);
+        final list = productModel.productList ?? [];
+        debugPrint("PRODUCT_LENGTH-->${list.length}");
+        emit(
+          state.copyWith(
+            apiDialogStatus: ApiStatus.success,
+            productList: list,
+            filteredProductList: list, // show full list initially
+          ),
+        );
+      },
+    ).onError(
+          (error, stackTrace) {
+        debugPrint("PRODUCT_ERROR-->$error");
+        emit(
+          state.copyWith(
+            apiDialogStatus: ApiStatus.error,
+            message: "Getting some errors",
+          ),
+        );
+      },
+    );
+  }
+
+  List<ProductList> searchProductList(
+      List<ProductList>? productList,
+      String query,
+      ) {
+    if (productList == null || productList.isEmpty || query.isEmpty) {
+      return productList ?? [];
+    }
+
+    final lowerQuery = query.toLowerCase();
+
+    return productList.where((product) {
+      //final prodName = product.prodName?.toLowerCase() ?? '';
+      final skuNumber = product.sKUNumber?.toLowerCase() ?? '';
+
+      return /*prodName.contains(lowerQuery) ||*/ skuNumber.contains(lowerQuery);
+    }).toList();
+  }
+
+  FutureOr<void> _searchProduct(
+      SearchProductEvent event,
+      Emitter<EstimationState> emit,
+      ) {
+    final filteredList = searchProductList(state.productList, event.query);
+    for (var product in filteredList) {
+      debugPrint("Filtered Product: ${product.sKUNumber}");
+    }
+    debugPrint("filteredList==>${filteredList.length}");
+    emit(state.copyWith(filteredProductList: filteredList));
+  }
+
+  FutureOr<void> _fetchSalesmanList(
+      FetchSalesmanListEvent event, Emitter<EstimationState> emit) async {
+    emit(state.copyWith(apiDialogStatus: ApiStatus.loading));
+    await estimationRepository.getSalesmanList(event.search).then(
+          (value) {
+        debugPrint("EMPLOYEE_VALUE==>$value");
+        var salesmanModel = SalesmanModel.fromJson(value);
+        final list = salesmanModel.employeeList! ?? [];
+        emit(
+          state.copyWith(
+            apiDialogStatus: ApiStatus.success,
+            employeeList: list,
+            filteredEmployeeList: list,
+          ),
+        );
+      },
+    ).onError(
+          (error, stackTrace) {
+        emit(
+          state.copyWith(
+            apiDialogStatus: ApiStatus.error,
+            message: "Getting some errors",
+          ),
+        );
+      },
+    );
+  }
+
+  List<EmployeeList> searchEmployeeList(
+      List<EmployeeList>? employeeList,
+      String query,
+      ) {
+    if (employeeList == null || employeeList.isEmpty || query.isEmpty) {
+      return employeeList ?? [];
+    }
+
+    final lowerQuery = query.toLowerCase();
+
+    return employeeList.where((employee) {
+      //final prodName = product.prodName?.toLowerCase() ?? '';
+      final employeeName = employee.eName!.toLowerCase() ?? '';
+
+      return /*prodName.contains(lowerQuery) ||*/ employeeName.contains(lowerQuery);
+    }).toList();
+  }
+
+  FutureOr<void> _searchEmployee(SearchEmployeeEvent event, Emitter<EstimationState> emit) {
+    final filteredList = searchEmployeeList(state.employeeList, event.search);
+    for (var employee in filteredList) {
+      debugPrint("Filtered Product: ${employee.eName}");
+    }
+    debugPrint("filteredList==>${filteredList.length}");
+    emit(state.copyWith(filteredEmployeeList: filteredList));
   }
 
   // List<ProductList> selectedProductList = [];
@@ -957,9 +1012,70 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
     emit(state.copyWith(selectedAddressList: [], selectAddressIndex: null));
   }
 
+  FutureOr<void> _generateEstimationNumber(GenerateEstimationNumber event, Emitter<EstimationState> emit) async {
+    emit(state.copyWith(apiDialogStatus: ApiStatus.loading));
+    String lecode =
+    SharedPreferencesHelper.getString(AppConstants.LEGAL_ENTITY)!;
+    String warehouse =
+    SharedPreferencesHelper.getString(AppConstants.WAREHOUSE)!;
+
+    Map<String, dynamic> body = {
+      "pvWarehouse": warehouse,
+      "pvLeCode": lecode,
+    };
+
+    await estimationRepository.generateEstimationNumber(body).then(
+          (value) {
+        debugPrint("ESTIMATE_NUMBER==>$value");
+        //var stateModel = StateModel.fromJson(value);
+        String generatedNumber = value["GeneratedNumber"]["GeneratedNumber"];
+        emit(
+          state.copyWith(
+            apiDialogStatus: ApiStatus.success,
+            estimationNumber: generatedNumber,
+          ),
+        );
+      },
+    ).onError(
+          (error, stackTrace) {
+        emit(
+          state.copyWith(
+            apiDialogStatus: ApiStatus.error,
+            message: "Getting some errors",
+          ),
+        );
+      },
+    );
+  }
+
+  Future<String> generateEstimationNumber() async {
+
+    String leCode =
+    SharedPreferencesHelper.getString(AppConstants.LEGAL_ENTITY)!;
+    String warehouse =
+    SharedPreferencesHelper.getString(AppConstants.WAREHOUSE)!;
+
+    final body = {
+      "pvWarehouse": warehouse,
+      "pvLeCode": leCode,
+    };
+
+    try {
+      // final response = await repository.generateEstimationNumber(body);
+      final response = await estimationRepository.generateEstimationNumber(body);
+      return response["GeneratedNumber"]["GeneratedNumber"];
+    } catch (e) {
+      throw Exception("Failed to generate estimation number");
+    }
+  }
+
+
+
   FutureOr<void> _submitEstimationData(
       SendEstimateData event, Emitter<EstimationState> emit) async {
     emit(state.copyWith(apiStatus: ApiStatus.loading));
+
+    final generatedNumber = await generateEstimationNumber();
 
     double totalTaxAmount = 0.0;
     for (int i = 0; i < state.taxAmountList!.length; i++) {
@@ -978,7 +1094,8 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
 
     // Preparing estimation entry
     EstimationEntryBody estimationEntry = EstimationEntryBody(
-      estnumber: state.estimationNumber!,
+      estnumber: generatedNumber,//state.estimationNumber!,
+      employee: state.employee!.emplId!,//state.estimationNumber!,
       currency: "INR",
       exchangerate: 1,
       // mobileno: int.parse(SharedPreferencesHelper.getString(AppConstants.MOBILE_NO)!),
@@ -1436,6 +1553,6 @@ class EstimationBloc extends Bloc<EstimationEvent, EstimationState> {
     SharedPreferencesHelper.remove(AppConstants.DiscountAmount);
     // SharedPreferencesHelper.remove(AppConstants.MOBILE_NO);
     emit(state.copyWith(
-        selectedProductList: selectedProductList, lineAmountList: lineAmount));
+        selectedProductList: selectedProductList, lineAmountList: lineAmount,salesmanName: ""));
   }
 }

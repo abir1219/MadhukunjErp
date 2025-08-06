@@ -34,6 +34,7 @@ class EstimationState extends Equatable {
   final ProductListFormModel? productListFormModel;
   final SkuDetails? skuDetails;
   final List<ProductList>? productList;
+  final List<ProductList> filteredProductList;
   // final List<ProductList>? selectedProductList;
   final List<ProductListFormModel>? selectedProductList;
 
@@ -80,6 +81,7 @@ class EstimationState extends Equatable {
   final List<double>? rotationAngle;
   final EstimationResponseModel? estimationResponseModel;
   final List<EmployeeList>? employeeList;
+  final List<EmployeeList>? filteredEmployeeList;
 
   //PdfData
   final FutureOr<Uint8List>? pdfData;
@@ -116,6 +118,7 @@ class EstimationState extends Equatable {
     this.productListFormModel,
     this.skuDetails,
     this.productList = const [],
+    this.filteredProductList = const [],
     this.selectedProductList = const [],
 
     // Miscellaneous items
@@ -161,6 +164,7 @@ class EstimationState extends Equatable {
     this.rotationAngle = const [],
     this.estimationResponseModel,
     this.employeeList = const [],
+    this.filteredEmployeeList = const [],
 
     //PdfData
     this.pdfData,
@@ -198,6 +202,7 @@ class EstimationState extends Equatable {
     SkuDetails? skuDetails,
     ProductListFormModel? productListFormModel,
     List<ProductList>? productList,
+    List<ProductList>? filteredProductList,
     // List<ProductList>? selectedProductList,
     List<ProductListFormModel>? selectedProductList,
 
@@ -244,6 +249,7 @@ class EstimationState extends Equatable {
     List<double>? rotationAngle,
     EstimationResponseModel? estimationResponseModel,
     List<EmployeeList>? employeeList,
+    List<EmployeeList>? filteredEmployeeList,
 
     //PdfData
     FutureOr<Uint8List>? pdfData
@@ -281,6 +287,7 @@ class EstimationState extends Equatable {
       productListFormModel: productListFormModel ?? this.productListFormModel,
       skuDetails: skuDetails ?? this.skuDetails,
       productList: productList ?? this.productList,
+      filteredProductList: filteredProductList ?? this.filteredProductList,
       // selectedProductList: selectedProductList ?? this.selectedProductList,
       selectedProductList: selectedProductList ?? this.selectedProductList,
 
@@ -329,6 +336,7 @@ class EstimationState extends Equatable {
       estimationResponseModel ?? this.estimationResponseModel,
 
       employeeList: employeeList ?? this.employeeList,
+      filteredEmployeeList: filteredEmployeeList ?? this.filteredEmployeeList,
 
       //PdfData
       pdfData: pdfData ?? this.pdfData,
@@ -369,6 +377,7 @@ class EstimationState extends Equatable {
         productListFormModel,
         skuDetails,
         productList,
+        filteredProductList,
         selectedProductList,
 
         // Miscellaneous items
@@ -414,6 +423,7 @@ class EstimationState extends Equatable {
         estimationResponseModel,
 
         employeeList,
+        filteredEmployeeList,
 
         //PdfData
         pdfData

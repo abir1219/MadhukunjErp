@@ -44,11 +44,11 @@ class _SalesmanListDialogState extends State<SalesmanListDialog> {
     var size = MediaQuery.sizeOf(context);
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       insetPadding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.02, vertical: size.height * 0.1),
+        horizontal: size.width * 0.02,
+        vertical: size.height * 0.1,
+      ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       backgroundColor: Colors.white,
       child: PopScope(
@@ -67,41 +67,49 @@ class _SalesmanListDialogState extends State<SalesmanListDialog> {
                         const Text(
                           "Salesman search",
                           style: TextStyle(
-                              color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18),
+                            color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                          ),
                         ),
                         GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: 25,
-                              width: 25,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.white),
-                              child: SvgPicture.asset(
-                                "assets/images/circle_close.svg",
-                                colorFilter: const ColorFilter.mode(
-                                    AppColors.LOGO_BACKGROUND_BLUE_COLOR,
-                                    BlendMode.srcIn),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 25,
+                            width: 25,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: SvgPicture.asset(
+                              "assets/images/circle_close.svg",
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.LOGO_BACKGROUND_BLUE_COLOR,
+                                BlendMode.srcIn,
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     Gap(size.height * 0.02),
                     AppWidgets.buildSearchableField(
-                        size,
-                        change: (text) {
-                          context.read<EstimationBloc>().add(FetchSalesmanListEvent(search: text));
-                        },
-                        "Search Salesman Code,Salesman name",
-                        _searchTextController,
-                        isEnabled: true),
+                      size,
+                      change: (text) {
+                        debugPrint("SEARCHABLE_TEXT==>$text");
+                        context.read<EstimationBloc>().add(
+                          SearchEmployeeEvent(search: text),
+                        );
+                      },
+                      "Search by name",
+                      _searchTextController,
+                      isEnabled: true,
+                    ),
                     Gap(size.height * 0.05),
                     BlocConsumer<EstimationBloc, EstimationState>(
-                      listener: (context, state) {
-                      },
+                      listener: (context, state) {},
                       builder: (context, state) {
                         switch (state.apiDialogStatus) {
                           case ApiStatus.loading:
@@ -110,29 +118,49 @@ class _SalesmanListDialogState extends State<SalesmanListDialog> {
                                 child: SizedBox(
                                   height: size.height * 0.03,
                                   width: size.width * 0.06,
-                                  child: Platform.isAndroid
-                                      ? const CircularProgressIndicator(
-                                          color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
-                                        )
-                                      : const CupertinoActivityIndicator(),
+                                  child:
+                                      Platform.isAndroid
+                                          ? const CircularProgressIndicator(
+                                            color:
+                                                AppColors
+                                                    .LOGO_BACKGROUND_BLUE_COLOR,
+                                          )
+                                          : const CupertinoActivityIndicator(),
                                 ),
                               ),
                             );
                           case ApiStatus.success:
                             return Expanded(
-                              child: ListView.builder(
-                                itemBuilder: (context, index) {
-                                  return _buildSalesmanContainer(
-                                      index, size, state.employeeList);
-                                },
-                                itemCount: state.employeeList!.length,
-                              ),
+                              child:
+                                  state.filteredEmployeeList!.isNotEmpty
+                                      ? ListView.builder(
+                                        itemBuilder: (context, index) {
+                                          return _buildSalesmanContainer(
+                                            index,
+                                            size,
+                                            state.filteredEmployeeList,
+                                          );
+                                        },
+                                        // itemCount: state.employeeList!.length,
+                                        itemCount:
+                                            state.filteredEmployeeList!.length,
+                                      )
+                                      : Center(
+                                        child: Text(
+                                          "No salesman found",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
                             );
                           default:
                             return const SizedBox();
                         }
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -144,7 +172,10 @@ class _SalesmanListDialogState extends State<SalesmanListDialog> {
   }
 
   Widget _buildSalesmanContainer(
-      int index, Size size, List<EmployeeList>? employeeList) {
+    int index,
+    Size size,
+    List<EmployeeList>? employeeList,
+  ) {
     return GestureDetector(
       onTap: () {
         context.read<EstimationBloc>().add(SelectSalesmanEvent(index));
@@ -159,9 +190,10 @@ class _SalesmanListDialogState extends State<SalesmanListDialog> {
         // padding: const EdgeInsets.only(left: 6), //,vertical: 2
         height: size.height * 0.08,
         decoration: BoxDecoration(
-          color: index % 2 == 0
-              ? AppColors.CONTAINER_BACKGROUND_COLOR_01
-              : AppColors.CONTAINER_BACKGROUND_COLOR_02,
+          color:
+              index % 2 == 0
+                  ? AppColors.CONTAINER_BACKGROUND_COLOR_01
+                  : AppColors.CONTAINER_BACKGROUND_COLOR_02,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,39 +206,45 @@ class _SalesmanListDialogState extends State<SalesmanListDialog> {
                   // height: size.height * 0.02,
                   // margin: EdgeInsets.symmetric(vertical: size.height * .005, horizontal: size.width * .01),
                   padding: EdgeInsets.symmetric(
-                      horizontal: size.width * .008,
-                      vertical: size.height * .003),
+                    horizontal: size.width * .008,
+                    vertical: size.height * .003,
+                  ),
                   decoration: BoxDecoration(
-                    color: index % 2 == 0
-                        ? AppColors.STEPPER_DONE_COLOR
-                        : AppColors.CONTAINER_BACKGROUND_COLOR_03,
+                    color:
+                        index % 2 == 0
+                            ? AppColors.STEPPER_DONE_COLOR
+                            : AppColors.CONTAINER_BACKGROUND_COLOR_03,
                     borderRadius: BorderRadius.circular(3),
                   ),
                   child: Center(
                     child: Text(
                       "${employeeList![index].emplId}",
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
-                      vertical: size.height * .005,
-                      horizontal: size.width * .01),
+                    vertical: size.height * .005,
+                    horizontal: size.width * .01,
+                  ),
                   padding: EdgeInsets.symmetric(
-                      horizontal: size.width * .002,
-                      vertical: size.height * .002),
+                    horizontal: size.width * .002,
+                    vertical: size.height * .002,
+                  ),
                   child: Text(
                     "${employeeList[index].eName}",
                     style: const TextStyle(
-                        color: AppColors.STEPPER_DONE_COLOR,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
+                      color: AppColors.STEPPER_DONE_COLOR,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
             GestureDetector(
@@ -215,7 +253,7 @@ class _SalesmanListDialogState extends State<SalesmanListDialog> {
                 margin: EdgeInsets.symmetric(horizontal: size.width * 0.02),
                 child: SvgPicture.asset("assets/images/arrow_right_circle.svg"),
               ),
-            )
+            ),
           ],
         ),
       ),

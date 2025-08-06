@@ -38,7 +38,7 @@ class _ProductListDialogState extends State<ProductListDialog> {
   void initState() {
     super.initState();
     context.read<EstimationBloc>().add(ApiStatusChangeEvent());
-    context.read<EstimationBloc>().add(CheckRateSetEvent());
+    // context.read<EstimationBloc>().add(CheckRateSetEvent());
     context.read<EstimationBloc>().add(const FetchProductListEvent(search: ""));
   }
 
@@ -112,9 +112,9 @@ class _ProductListDialogState extends State<ProductListDialog> {
                               width: size.width * 0.06,
                               child: Platform.isAndroid
                                   ? const CircularProgressIndicator(
-                                      color:
-                                          AppColors.LOGO_BACKGROUND_BLUE_COLOR,
-                                    )
+                                color:
+                                AppColors.LOGO_BACKGROUND_BLUE_COLOR,
+                              )
                                   : const CupertinoActivityIndicator(),
                             ),
                           ),
@@ -133,22 +133,27 @@ class _ProductListDialogState extends State<ProductListDialog> {
                                             .trim(),
                                       ),
                                     );*/
+                                    debugPrint("SEARCHED_TEXT-->$text");
+                                    context.read<EstimationBloc>().add(SearchProductEvent(text.trim()));
                                   },
                                   "Sku id",
                                   func: () {
-                                    context.read<EstimationBloc>().add(
+                                    /*context.read<EstimationBloc>().add(
                                           FetchProductListEvent(
                                             search: _searchTextController.text
                                                 .trim(),
                                           ),
-                                        );
+                                        );*/
+                                    // context.read<EstimationBloc>().add(SearchProductEvent( _searchTextController.text.trim()));
                                   },
                                   _searchTextController,
                                   isEnabled: true),
                               Gap(size.height * 0.05),
                               Expanded(
-                                child: ListView.builder(
+                                child: state.filteredProductList.isNotEmpty?ListView.builder(
                                   itemBuilder: (context, index) {
+                                    final product = state.filteredProductList[index];
+                                    debugPrint("PRODUCT_LIST--->${product.sKUNumber}");
                                     return _buildProductContainer(
                                         index, size, state, () {
                                       if (widget.isDialog) {
@@ -159,15 +164,16 @@ class _ProductListDialogState extends State<ProductListDialog> {
                                         barrierDismissible: false,
                                         builder: (context) {
                                           return ProductEstimateFormDialog(
-                                            sKUNumber: state
-                                                .productList![index].sKUNumber!,
+                                            // sKUNumber: state.productList![index].sKUNumber!,
+                                            sKUNumber: product.sKUNumber ?? '',
                                           );
                                         },
                                       );
                                     });
                                   },
-                                  itemCount: state.productList!.length,
-                                ),
+                                  // itemCount: state.productList!.length,
+                                  itemCount: state.filteredProductList.length,
+                                ):Center(child: Text("No product found",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w500),),),
                               ),
                             ],
                           ),
@@ -227,30 +233,33 @@ class _ProductListDialogState extends State<ProductListDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Image Container
-            /*Container(
+            Container(
               margin: EdgeInsets.only(top: 2, bottom: 2, left: 2),
               height: AppDimensions.getResponsiveHeight(context) * 0.2,
               width: AppDimensions.getResponsiveWidth(context) * 0.2,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 // color: Colors.red,
-                image: state.productList![index].imageUrl != null
+                // image: state.productList![index].imageUrl != null
+                image: state.filteredProductList[index].imageUrl != null
                     ? DecorationImage(
-                        image:
-                            NetworkImage(state.productList![index].imageUrl!),
-                        fit: BoxFit.fill,
-                      )
+                  image:
+                  // NetworkImage(state.productList![index].imageUrl!),
+                  NetworkImage(state.filteredProductList[index].imageUrl!),
+                  fit: BoxFit.fill,
+                )
                     : null, // No image if URL is null
               ),
-              child: state.productList![index].imageUrl == null
+              child: state.filteredProductList[index].imageUrl == null
+              // child: state.productList![index].imageUrl == null
                   ? Center(
-                      child: Icon(
-                        Icons.image_not_supported,
-                        color: Colors.white,
-                      ),
-                    )
+                child: Icon(
+                  Icons.image_not_supported,
+                  color: Colors.white,
+                ),
+              )
                   : null,
-            ),*/
+            ),
             SizedBox(width: AppDimensions.getResponsiveWidth(context) * 0.03),
             // Space between image and details
             // Product Details and Arrow
@@ -281,7 +290,8 @@ class _ProductListDialogState extends State<ProductListDialog> {
                         ),
                         child: Center(
                           child: Text(
-                            "${state.productList![index].sKUNumber}",
+                            // "${state.productList![index].sKUNumber}",
+                            "${state.filteredProductList[index].sKUNumber}",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
@@ -297,9 +307,12 @@ class _ProductListDialogState extends State<ProductListDialog> {
                           horizontal: size.width * .01,
                         ),
                         child: Text(
-                          "${state.productList![index].prodName}, "
-                          "${state.productList![index].purity ?? '0'}, "
-                          "${state.productList![index].pcs}Pc.",
+                          // "${state.productList![index].prodName}, "
+                          "${state.filteredProductList[index].prodName}, "
+                          // "${state.productList![index].purity ?? '0'}, "
+                              "${state.filteredProductList[index].purity ?? '0'}, "
+                          // "${state.productList![index].pcs}Pc.",
+                              "${state.filteredProductList[index].pcs}Pc.",
                           style: const TextStyle(
                             color: AppColors.STEPPER_DONE_COLOR,
                             fontSize: 14,

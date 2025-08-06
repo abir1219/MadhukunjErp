@@ -445,14 +445,18 @@ class AppWidgets {
             Expanded(
               child: TextField(
                 controller: controller,
-                onChanged: (value) => change!(controller!.text),
+                onChanged: (value) {
+                  debugPrint("DATA--->$value");
+                  change!(controller!.text);
+                },
+                enabled: isEnabled,
                 style: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.w500),
                 decoration: InputDecoration(
                     hintText: hint,
-                    enabled: isEnabled,
+                    // enabled: isEnabled,
                     hintStyle: const TextStyle(
                       color: AppColors.HINT_TEXT_COLOR,
                       fontSize: 12,

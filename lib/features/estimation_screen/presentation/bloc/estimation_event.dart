@@ -47,6 +47,15 @@ final class AddIngredientEvent extends EstimationEvent {
       ];
 }
 
+class SearchProductEvent extends EstimationEvent {
+  final String query;
+
+  const SearchProductEvent(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}
+
 final class FetchSalesmanListEvent extends EstimationEvent {
   final String search;
 
@@ -54,6 +63,15 @@ final class FetchSalesmanListEvent extends EstimationEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+class SearchEmployeeEvent extends EstimationEvent {
+  final String search;
+
+  const SearchEmployeeEvent({required this.search});
+
+  @override
+  List<Object?> get props => [search];
 }
 
 final class GenerateEstimationNumber extends EstimationEvent{

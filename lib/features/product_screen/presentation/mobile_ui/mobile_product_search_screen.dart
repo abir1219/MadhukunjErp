@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../features/product_screen/presentation/mobile_ui/product_list.dart';
@@ -16,6 +17,7 @@ import '../../../../core/widgets/app_widgets.dart';
 import '../../../../router/app_pages.dart';
 import '../../../estimation_screen/presentation/bloc/estimation_bloc.dart';
 import '../../../legal_entity_screen/presentation/bloc/legal_entity_bloc.dart';
+import '../../../salesman_screen/presentation/salesman_list_dialog.dart';
 import 'estimation_info_dialog.dart';
 
 class ProductSearchScreen extends StatefulWidget {
@@ -26,7 +28,6 @@ class ProductSearchScreen extends StatefulWidget {
 }
 
 class _ProductSearchScreenState extends State<ProductSearchScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -35,18 +36,15 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
     });
   }
 
-
-  void _showMyDialog(){
+  void _showMyDialog() {
     showDialog(
       barrierDismissible: false,
       builder: (context) {
-        return const ProductListDialog(isDialog: true,);
+        return const ProductListDialog(isDialog: true);
       },
       context: context,
     );
   }
-
-  DateTime? _lastPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +83,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                 context.read<EstimationBloc>().add(LogoutEvent());
                 context.read<LegalEntityBloc>().add(ClearStateEvent());
                 // context.read<StoreBloc>().add(FetchStoreEvent());
-                Future.delayed(Duration(milliseconds: 500),() {
+                Future.delayed(Duration(milliseconds: 500), () {
                   if (mounted) {
                     context.go(
                       // AppPages.LOGIN,
@@ -94,7 +92,10 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                   }
                 });
               },
-              child: Icon(Icons.home,color: Colors.white,),//SvgPicture.asset("assets/images/logout.svg"),
+              child: Icon(
+                Icons.home,
+                color: Colors.white,
+              ), //SvgPicture.asset("assets/images/logout.svg"),
             ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
@@ -102,12 +103,74 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
             child: Column(
               children: [
                 AppWidgets().buildTopEstimationContainer(size),
-                Gap(size.height * .02),
-                AppWidgets().buildStepperContainer(size, pageNo: 1),
-                Gap(size.height * .02),
-                const Expanded(
-                  child: ProductList(),
+                //Gap(size.height * .02),
+                // AppWidgets().buildStepperContainer(size, pageNo: 1),
+                Gap(size.height * .01),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return SalesmanListDialog(employeeList: null);
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: size.height * .05,
+                    //MediaQuery.sizeOf(context),
+                    margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: size.width * 0.05,
+                    ),
+                    width: size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(8.0),
+                        bottomLeft: Radius.circular(8.0),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(145),
+                          blurRadius: 1.2,
+                          blurStyle: BlurStyle.outer,
+                          offset: Offset(0.5, 0.5),
+                          spreadRadius: 1.5,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        BlocConsumer<EstimationBloc, EstimationState>(
+                          listener: (context, state) {},
+                          builder: (context, state) {
+                            return Text(
+                              (state.salesmanName == null || state.salesmanName!.isEmpty)
+                                  ? "Employee Name"
+                                  : state.salesmanName!,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: 34,
+                          width: 34,
+                          child: Center(
+                            child: SvgPicture.asset("assets/images/search.svg"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
+                Gap(size.height * .01),
+                const Expanded(child: ProductList()),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: size.height * .02),
                   child: Row(
@@ -125,27 +188,30 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                       ),*/
                       Expanded(
                         child: AppWidgets.customMobileButton(
-                            size: size,
-                            btnName: 'Reset',
-                            func: () => context
-                                .read<EstimationBloc>()
-                                .add(ResetSelectedProductDataEvent()),
-                            color: AppColors.LOGO_BACKGROUND_BLUE_COLOR),
+                          size: size,
+                          btnName: 'Reset',
+                          func:
+                              () => context.read<EstimationBloc>().add(
+                                ResetSelectedProductDataEvent(),
+                              ),
+                          color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
+                        ),
                       ),
                       Expanded(
                         child: AppWidgets.customMobileButton(
-                            size: size,
-                            btnName: 'Add Product',
-                            color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
-                            func: () {
-                              showDialog(
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return const ProductListDialog(isDialog: true,);
-                                },
-                                context: context,
-                              );
-                            }),
+                          size: size,
+                          btnName: 'Add Product',
+                          color: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
+                          func: () {
+                            showDialog(
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return const ProductListDialog(isDialog: true);
+                              },
+                              context: context,
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -174,9 +240,10 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                 const Text(
                                   "Estimate Amount",
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w300),
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
                                 Gap(size.width * 0.004),
                                 InkWell(
@@ -186,32 +253,45 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                       // builder: (context) => const IngredientsFormDialog(),
                                       barrierDismissible: true,
                                       barrierLabel:
-                                      MaterialLocalizations.of(context)
-                                          .modalBarrierDismissLabel,
+                                          MaterialLocalizations.of(
+                                            context,
+                                          ).modalBarrierDismissLabel,
                                       barrierColor: Colors.black45,
-                                      transitionDuration:
-                                      const Duration(milliseconds: 300),
-                                      transitionBuilder: (context, animation,
-                                          secondaryAnimation, child) {
+                                      transitionDuration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      transitionBuilder: (
+                                        context,
+                                        animation,
+                                        secondaryAnimation,
+                                        child,
+                                      ) {
                                         return SlideTransition(
                                           position: Tween<Offset>(
                                             begin: const Offset(0, 1),
                                             // Start from the bottom
                                             end: const Offset(
-                                                0, 0), // End at the center
-                                          ).animate(CurvedAnimation(
-                                            parent: animation,
-                                            curve: Curves
-                                                .easeInOut, // Ease-in transformation
-                                          )),
+                                              0,
+                                              0,
+                                            ), // End at the center
+                                          ).animate(
+                                            CurvedAnimation(
+                                              parent: animation,
+                                              curve:
+                                                  Curves
+                                                      .easeInOut, // Ease-in transformation
+                                            ),
+                                          ),
                                           child: child,
                                         );
                                       },
-                                      pageBuilder: (BuildContext context,
-                                          Animation<double> animation,
-                                          Animation<double>
-                                          secondaryAnimation) =>
-                                      const EstimationInfoDialog(),
+                                      pageBuilder:
+                                          (
+                                            BuildContext context,
+                                            Animation<double> animation,
+                                            Animation<double>
+                                            secondaryAnimation,
+                                          ) => const EstimationInfoDialog(),
                                     );
                                   },
                                   child: const Icon(
@@ -219,49 +299,57 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                     size: 18,
                                     color: Colors.white,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                             BlocConsumer<EstimationBloc, EstimationState>(
                               listener: (context, state) {},
-                              builder:
-                                  (BuildContext context, EstimationState state) {
+                              builder: (
+                                BuildContext context,
+                                EstimationState state,
+                              ) {
                                 if (state.lineAmountList!.isNotEmpty) {
                                   double totalAmount = 0.0;
-                                  for (int i = 0;
-                                  i < state.lineAmountList!.length;
-                                  i++) {
+                                  for (
+                                    int i = 0;
+                                    i < state.lineAmountList!.length;
+                                    i++
+                                  ) {
                                     totalAmount += state.lineAmountList![i];
                                   }
                                   return Text(
                                     // "₹ ${totalAmount.toStringAsFixed(2)}",
                                     "₹ ${AppWidgets.formatIndianNumber(totalAmount)}",
                                     style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w400),
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   );
                                 } else {
                                   return const Text(
                                     "₹ 0.00",
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w400),
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   );
                                 }
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
                       Expanded(
                         child: Padding(
-                          padding:
-                          EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.01,
+                          ),
                           child: BlocConsumer<EstimationBloc, EstimationState>(
-                            listenWhen: (previous, current) =>
-                            current.apiStatus == ApiStatus.success,
+                            listenWhen:
+                                (previous, current) =>
+                                    current.apiStatus == ApiStatus.success,
                             listener: (context, state) {
                               debugPrint("STATE_STATUS--->${state.apiStatus}");
                               if (state.apiStatus == ApiStatus.success) {
@@ -278,7 +366,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                   height: 150,
                                   repeat: false,
                                 );*/
-                                /*_showSuccessDialog();
+                                _showSuccessDialog();
                                 Future.delayed(
                                   const Duration(milliseconds: 2500),
                                       () {
@@ -286,7 +374,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                     context.go(AppPages.PDFVIEW,
                                         extra: state.estimationResponseModel);
                                   },
-                                );*/
+                                );
                               }
                             },
                             builder: (context, state) {
@@ -297,18 +385,34 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                     /*context
                                         .read<EstimationBloc>()
                                         .add(const SendEstimateData());*/
-                                    context.go(AppPages.ESTIMATION);
+                                    //context.go(AppPages.ESTIMATION);
+                                    if(state.employee != null){
+                                      context
+                                          .read<EstimationBloc>()
+                                          .add(const SendEstimateData());
+                                    }else{
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) {
+                                          return SalesmanListDialog(employeeList: null);
+                                        },
+                                      );
+                                    }
+
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                          content: Text("Please add product")),
+                                        content: Text("Please add product"),
+                                      ),
                                     );
                                   }
                                 },
-                                btnName: "Sales Advice",
-                                isLoading: state.apiStatus == ApiStatus.loading
-                                    ? true
-                                    : false,
+                                btnName: "Submit",//"Sales Advice",
+                                isLoading:
+                                    state.apiStatus == ApiStatus.loading
+                                        ? true
+                                        : false,
                                 color: Colors.white,
                                 textColor: AppColors.LOGO_BACKGROUND_BLUE_COLOR,
                               );
@@ -345,4 +449,21 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
       },
     );
   }*/
+
+  Future _showSuccessDialog() {
+    var size = MediaQuery.sizeOf(context);
+    return showDialog(
+      barrierColor: Colors.white,
+      context: context,
+      builder: (context) {
+        return Lottie.asset(
+          'assets/lottie/success_lottie.json',
+          width: size.width * 0.4,
+          height: size.height * 0.4,
+          // height: 150,
+          repeat: false,
+        );
+      },
+    );
+  }
 }

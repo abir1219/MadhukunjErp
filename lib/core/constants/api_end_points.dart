@@ -5,16 +5,15 @@ class ApiEndPoints {
       "ws://12.0.1.4:8085/ws/online-users/?device_id";
 
   // static final TEST_SOCKE_URL = "ws://192.168.1.189:8001/ws/online-users/?device_id"; //Azam Local
-  static final TEST_SOCKE_URL =
-      "ws://2fde4c9176c9.ngrok-free.app/ws/online-users/?device_id"; //Saibal Local
-  // static final TEST_SOCKE_URL = "ws://192.168.1.180:8085/ws/online-users/?device_id"; // Saibal Local
+  // static final TEST_SOCKE_URL = "ws://2fde4c9176c9.ngrok-free.app/ws/online-users/?device_id"; //Saibal Local
+  static final TEST_SOCKE_URL = "ws://192.168.1.180:8090/ws/online-users/?device_id"; // Saibal Local
 
   static final SOCKET_BASE_URL = TEST_SOCKE_URL;
 
   static final TEST_URL =
       // "http://crownestapi.cloud24k.com/api/estimations/";
-      "https://2fde4c9176c9.ngrok-free.app/api/estimations/"; // Saibal Local
-  // "http://192.168.1.180:8085/api/estimations/"; // Saibal Local
+      // "https://2fde4c9176c9.ngrok-free.app/api/estimations/"; // Saibal Local
+  "http://192.168.1.180:8090/api/estimations/"; // Saibal Local
   // "https://86b4-136-232-65-198.ngrok-free.app/api/estimations/"; // Azam Local
   // "https://6bf5848cfeaf.ngrok-free.app/api/estimations/"; // Saibal Local
   static final CLIENT_URL = "http://12.0.1.4:8085/api/estimations/";

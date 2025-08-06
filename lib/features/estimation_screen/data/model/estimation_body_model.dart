@@ -17,6 +17,7 @@ class EstimationRequest {
 
 class EstimationEntryBody {
   final String? estnumber;
+  final String? employee;
   final String? currency;
   final double? exchangerate;
   final int? mobileno;
@@ -34,6 +35,7 @@ class EstimationEntryBody {
 
   EstimationEntryBody({
     this.estnumber,
+    this.employee,
     this.currency,
     this.exchangerate,
     this.mobileno,
@@ -53,6 +55,7 @@ class EstimationEntryBody {
   Map<String, dynamic> toJson() {
     return {
       'estnumber': estnumber,
+      'employee': employee,
       'currency': currency,
       'exchangerate': exchangerate,
       'mobileno': mobileno,
